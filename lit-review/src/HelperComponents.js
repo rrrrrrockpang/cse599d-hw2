@@ -11,7 +11,7 @@ export function PaperCard(props) {
             <div class="paper-card">
                 {paper.s2data ?
                 <div key={paper.s2data.paperId}>
-                    <h5>{paper.s2data.title}</h5>
+                    <h5><a href={`https://doi.org/${paper.doi}`}>{paper.s2data.title}</a></h5>
                     <div className="info-wrapper"> <People /> {paper.s2data.authors.map((author, index) => (<span>
                         {index === paper.s2data.authors.length - 1 ? <span>{author.name}</span> : <span>{author.name}, </span>}
                         </span>))}
@@ -24,8 +24,11 @@ export function PaperCard(props) {
                     {paper.s2data.tldr ? <p><TextLeft /> TLDR: {paper.s2data.tldr.text}</p> : null}
                 </div> :
                 <div key={paper.csl.id}>
-                    <h5>{paper.csl.title}</h5>
-                    <p><Link45deg /> {paper.csl.URL}</p>
+                    <h5><a href={`https://doi.org/${paper.doi}`}>{paper.csl.title}</a></h5>
+                    <div class="info-wrapper">
+                        <Book /> {paper.csl.publisher}
+                    </div>
+                    <span><Link45deg /> {paper.csl.URL}</span>
                 </div>
                 }
                 <hr style={{marginTop: '2rem'}}></hr>
