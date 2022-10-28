@@ -15,9 +15,30 @@
 }
 
 .slide-pane__header {
-  margin-top: 1rem;
+  margin-top: 2rem;
   background: transparent !important;
   height: auto !important; 
   border-bottom: none !important;
-  font-size: 64px;
+  padding-bottom: 1rem !important;
 }
+
+.slide-pane__close {
+  padding-top: 2rem !important;
+  position: absolute !important;
+  float: right !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+.slide-pane__title {
+  font-size: 36px !important;
+}
+
+.slide-pane__subtitle {
+  font-size: 16px !important;
+}
+
+h5 {
+  margin-bottom: 0;
+}
+

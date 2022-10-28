@@ -1,9 +1,62 @@
 import React, { useState } from 'react';
 import './App.css';
-import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg } from 'react-bootstrap-icons';
+import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg, GraphUp, Building } from 'react-bootstrap-icons';
 // import SlidingPanel from 'react-sliding-side-panel';
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
+import classPapers from './data.json';
+import authorDataS2 from './authors.json';
+import relevant from './relevant.json';
+import papersEnhanced from './papers.json';
+
+function SubtitleFormatter(author) {
+  return (
+    <div>
+        <div>
+            {author.affiliations.length > 0 ? <span style={{marginRight: "1rem"}}> <Building /> {author.affiliations.join(", ")}</span> : null}
+            {author.homepage ? <span><Link45deg /> <a target="_blank" href={author.homepage}>{author.homepage}</a></span> : null}
+        </div>
+        <span style={{marginRight: "1rem"}}><Quote /> {author.citationCount} citations</span>
+        <span style={{marginRight: "1rem"}}><GraphUp /> h-index: {author.hIndex}</span>
+        <span><Book /> {author.paperCount} papers</span>
+    </div>
+  );
+}
+
+export function SlidingCard(author) {
+    const [state, setState] = useState({isPaneOpen: false});
+    // update the author info with S2 enhanced data
+    let authorData = authorDataS2[author.authorId]
+    return (
+        
+        <span>
+            <a onClick={() => {setState({ isPaneOpen: true })}} href="#!">
+                {author.name}
+            </a>
+            <SlidingPane
+                className="some-custom-class"
+                overlayClassName="some-custom-overlay-class"
+                isOpen={state.isPaneOpen}
+                title={<h2>{author.name}</h2>}
+                subtitle={
+                    <SubtitleFormatter {...authorData} />
+                }
+                onRequestClose={() => {
+                // triggered on "<" on left top click or on outside click
+                setState({ isPaneOpen: false });
+                
+                }}
+                closeIcon={<div><XLg style={{width: "50px"}}/></div>}
+                width="50%"
+            >
+            <h5>{author.name}'s Other Papers You May Find Relevant </h5>
+            <div style={{marginBottom: "1rem"}}><span>to "{author.prevTitle}," from Semantic Scholar</span></div>
+            <hr />
+            <PaperCardLeaf id={author.prevPaperId} authorId={author.authorId} />
+            </SlidingPane>
+        </span>
+    );
+}
 
 export function PaperCard(props) {
     const papers = props.data;
@@ -11,12 +64,12 @@ export function PaperCard(props) {
     return (
         <div>
         {papers.map((paper) => (
-            <div class="paper-card">
+            <div className="paper-card">
                 {paper.s2data ?
                 <div key={paper.s2data.paperId}>
                     <h5><a href={`https://doi.org/${paper.doi}`}>{paper.s2data.title}</a></h5>
                     <div className="info-wrapper"> <People /> {paper.s2data.authors.map((author, index) => (<span>
-                        {index === paper.s2data.authors.length - 1 ? <span>{author.name}</span> : <span>{author.name}, </span>}
+                        {index === paper.s2data.authors.length - 1 ? <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} /></span> : <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} />, </span>}
                         </span>))}
                     </div>
                     <div className="info-wrapper">
@@ -44,30 +97,46 @@ export function PaperCard(props) {
     );
 }
 
-export function SlidingCard(props) {
-    const [state, setState] = useState({isPaneOpen: false});
+export function PaperCardLeaf({id, authorId}) {
+    const paperLimit = 10;
+    let allRelvantPapers = relevant[id][authorId];
+    let keys = Object.keys(allRelvantPapers);
+
+    let topArray = [];
+
+    for (let i = 0; i < keys.length; i++) {
+        if (i > paperLimit - 1) { break; } 
+        topArray.push(allRelvantPapers[i]);
+    }
+
+    const papers = topArray.map((paper, index) => {return topArray[index]});
+    const enhacedArr = papersEnhanced;
     return (
         <div>
-            <a onClick={() => {setState({ isPaneOpen: true })}} href="#!">
-                {props.text}
-            </a>
-            <SlidingPane
-                className="some-custom-class"
-                overlayClassName="some-custom-overlay-class"
-                isOpen={state.isPaneOpen}
-                title="Hey, it is optional pane title.  I can be React component too."
-                subtitle="Optional subtitle."
-                onRequestClose={() => {
-                // triggered on "<" on left top click or on outside click
-                setState({ isPaneOpen: false });
+        {papers.map((paper) => (
+            <div className="paper-card">
+
+                <div key={paper.paperId}>
+                    <h5><a href={paper.url}>{paper.title}</a></h5>
+                    <div className="info-wrapper"> <People /> {paper.authors.map((author, index) => (<span>
+                        {index === paper.authors.length - 1 ? <span>{author.name}</span> : <span>{author.name}, </span>}
+                        </span>))}
+                    </div>
+                    <div className="info-wrapper">
+                        {paper.venue ? <span style={{marginRight: '1rem'}}><Book /> {paper.venue}</span> : null}
+                        <span style={{marginRight: '1rem'}}><Clock /> {paper.year}</span>
+                        {/* <span><Quote /> {paper.s2data.citationCount} citations</span> */}
+                    </div>
+                    {paper.abstract ? <p><TextLeft /> Abstract: {paper.abstract}</p> : null}
+                </div>
                 
-                }}
-                closeIcon={<div><XLg /></div>}
-                width="50%"
-            >
-                <div>And I am pane content. BTW, what rocks?</div>
-                <br />
-            </SlidingPane>
+                <hr style={{marginTop: '2rem'}}></hr>
+            </div>
+           
+        ))}
         </div>
+        
+        
     );
 }
+
