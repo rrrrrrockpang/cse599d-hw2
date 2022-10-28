@@ -720,6 +720,12 @@
             "PubMed": "31233491"
         }
     },
+    "jupyter": {
+        "url": "https://doi.org/10.5281/zenodo.2561065",
+        "year": 2020,
+        "title": "Jupyter Book",
+        "topic": "Authoring Tools"
+    },
     "0079692cd41bbf56e27f0744ec0fd595007dc9e7": {
         "url": "https://www.semanticscholar.org/paper/0079692cd41bbf56e27f0744ec0fd595007dc9e7",
         "title": "Augmenting Scientific Papers with Just-in-Time, Position-Sensitive Definitions of Terms and Symbols",
