@@ -13,3 +13,11 @@
 .info-wrapper {
   margin-bottom: 10px;
 }
+
+.slide-pane__header {
+  margin-top: 1rem;
+  background: transparent !important;
+  height: auto !important; 
+  border-bottom: none !important;
+  font-size: 64px;
+}
