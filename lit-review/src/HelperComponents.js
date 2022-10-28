@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { People, Book, Clock, Quote, TextLeft, Link45deg } from 'react-bootstrap-icons';
+import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg } from 'react-bootstrap-icons';
+// import SlidingPanel from 'react-sliding-side-panel';
+import SlidingPane from "react-sliding-pane";
+import "react-sliding-pane/dist/react-sliding-pane.css";
 
 export function PaperCard(props) {
     const papers = props.data;
@@ -25,7 +28,7 @@ export function PaperCard(props) {
                 </div> :
                 <div key={paper.csl.id}>
                     <h5><a href={`https://doi.org/${paper.doi}`}>{paper.csl.title}</a></h5>
-                    <div class="info-wrapper">
+                    <div className="info-wrapper">
                         <Book /> {paper.csl.publisher}
                     </div>
                     <span><Link45deg /> {paper.csl.URL}</span>
@@ -38,5 +41,33 @@ export function PaperCard(props) {
         </div>
         
         
+    );
+}
+
+export function SlidingCard(props) {
+    const [state, setState] = useState({isPaneOpen: false});
+    return (
+        <div>
+            <a onClick={() => {setState({ isPaneOpen: true })}} href="#!">
+                {props.text}
+            </a>
+            <SlidingPane
+                className="some-custom-class"
+                overlayClassName="some-custom-overlay-class"
+                isOpen={state.isPaneOpen}
+                title="Hey, it is optional pane title.  I can be React component too."
+                subtitle="Optional subtitle."
+                onRequestClose={() => {
+                // triggered on "<" on left top click or on outside click
+                setState({ isPaneOpen: false });
+                
+                }}
+                closeIcon={<div><XLg /></div>}
+                width="50%"
+            >
+                <div>And I am pane content. BTW, what rocks?</div>
+                <br />
+            </SlidingPane>
+        </div>
     );
 }
