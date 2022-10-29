@@ -46,7 +46,11 @@ h5 {
   margin-top: 2rem;
   margin-left: 2rem;
   position: fixed;
-  width: 48vw;
+  padding-right: 2rem;
+}
+
+.title-link {
+  text-decoration: none;
 }
 
 #about-barchart {

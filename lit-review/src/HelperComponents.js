@@ -67,7 +67,7 @@ export function PaperCard(props) {
             <div className="paper-card">
                 {paper.s2data ?
                 <div key={paper.s2data.paperId}>
-                    <h5><a href={`https://doi.org/${paper.doi}`} target="_blank">{paper.s2data.title}</a></h5>
+                    <h5><a className="title-link" href={`https://doi.org/${paper.doi}`} target="_blank">{paper.s2data.title}</a></h5>
                     <div className="info-wrapper"> <People /> {paper.s2data.authors.map((author, index) => (<span>
                         {index === paper.s2data.authors.length - 1 ? <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} /></span> : <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} />, </span>}
                         </span>))}
@@ -80,7 +80,7 @@ export function PaperCard(props) {
                     {paper.s2data.tldr ? <p><TextLeft /> TLDR: {paper.s2data.tldr.text}</p> : null}
                 </div> :
                 <div key={paper.csl.id}>
-                    <h5><a href={`https://doi.org/${paper.doi}`} target="_blank">{paper.csl.title}</a></h5>
+                    <h5><a className="title-link" href={`https://doi.org/${paper.doi}`} target="_blank">{paper.csl.title}</a></h5>
                     <div className="info-wrapper">
                         <Book /> {paper.csl.publisher}
                     </div>
@@ -116,7 +116,7 @@ export function PaperCardLeaf({id, authorId}) {
             <div className="paper-card">
 
                 <div key={paper.paperId}>
-                    <h5><a href={paper.url} target="_blank">{paper.title}</a></h5>
+                    <h5><a className="title-link" href={paper.url} target="_blank">{paper.title}</a></h5>
                     <div className="info-wrapper"> <People /> {paper.authors.map((author, index) => (<span>
                         {index === paper.authors.length - 1 ? <span>{author.name}</span> : <span>{author.name}, </span>}
                         </span>))}
@@ -126,7 +126,7 @@ export function PaperCardLeaf({id, authorId}) {
                         <span style={{marginRight: '1rem'}}><Clock /> {paper.year}</span>
                         {/* <span><Quote /> {paper.s2data.citationCount} citations</span> */}
                     </div>
-                    {paper.abstract ? <p><TextLeft /> Abstract: {paper.abstract}</p> : null}
+                    {paper.tldr ? <p><TextLeft /> TLDR: {paper.tldr.text}</p> : null}
                 </div>
                 
                 <hr style={{marginTop: '2rem'}}></hr>
