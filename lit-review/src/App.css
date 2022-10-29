@@ -47,3 +47,7 @@ h5 {
   margin-left: 2rem;
   position: fixed;
 }
+
+.title-link {
+  text-decoration: none;
+}
