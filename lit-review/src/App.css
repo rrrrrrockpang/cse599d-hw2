@@ -70,3 +70,9 @@ h5 {
   margin-left: 1rem;
   color: red;
 }
+
+#title-authorlens {
+  text-align: left;
+  left: 25vw;
+  padding-left: 15.5vw;;
+}

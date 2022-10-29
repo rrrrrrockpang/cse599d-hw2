@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>AuthorLens 🔎</h1>
+        <h1 id="title-authorlens">AuthorLens 🔎</h1>
 
         <div class="row">
           <div className="papers-wrapper col-lg-6">
