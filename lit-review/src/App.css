@@ -45,4 +45,5 @@ h5 {
 .about {
   margin-top: 2rem;
   margin-left: 2rem;
+  position: fixed;
 }

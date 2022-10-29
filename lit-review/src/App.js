@@ -12,7 +12,6 @@ function App() {
   for (let i = 0; i < topicNames.length; i++) {
     for (let j = 0; j < Object.values(papersEnhanced).length; j++) {
 
-      console.log(classPapers.length - Object.values(papersEnhanced).length);
       let topic = topicNames[i];
       let paper = Object.values(papersEnhanced)[j];
       if (paper.topic === topic) {
@@ -20,8 +19,6 @@ function App() {
       }
     }
   }
-
-  console.log(topics["Explorable Explanations"]);
 
   return (
     <div className="App">
@@ -43,12 +40,14 @@ function App() {
             </Accordion>
             
           </div>
-          <div className="about col">
-            <h5>About AuthorLens</h5>
-            <br></br>
-            <p>AuthorLens allows you to explore other relevant works by your authors of interest.</p>
-            <p>Start by expanding one of the class topics on the left to browse papers. Once you see a paper you're interested in, you can click on one of the paper's authors to see more information about them and other potentially relevant papers they wrote. </p>
-            <p>Relevance is determined by a <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> score between the abstract of the origin paper (the paper on which you clicked on the author) and the destination paper (some other paper by the author). The results are sorted by relevance.  </p>
+          <div className="col">
+            <div className="about">
+              <h5>About AuthorLens</h5>
+              <br></br>
+              <p>AuthorLens allows you to explore other relevant works by your authors of interest.</p>
+              <p>Start by expanding one of the class topics on the left to browse papers. Once you see a paper you're interested in, you can click on one of the paper's authors to see more information about them and other potentially relevant papers they wrote. </p>
+              <p>Relevance is determined by a <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> score between the abstract of the origin paper (the paper on which you clicked on the author) and the destination paper (some other paper by the author). The results are sorted by relevance.  </p>
+            </div>
           </div>
         </div>
         
