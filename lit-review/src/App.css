@@ -46,4 +46,12 @@ h5 {
   margin-top: 2rem;
   margin-left: 2rem;
   position: fixed;
+  width: 48vw;
+}
+
+#about-barchart {
+  margin: auto;
+  margin-top: 5rem;
+  display: block;
+  width: 100%;
 }

@@ -1,9 +1,10 @@
 import './App.css';
-import { PaperCard, SlidingCard } from './HelperComponents.js';
+import { PaperCard } from './HelperComponents.js';
 import classPapers from './data.json';
 import papersEnhanced from './papers.json';
 import Accordion from 'react-bootstrap/Accordion';
-
+// import { VegaLite } from 'react-vega';
+import BarChart from "./components/barChart.js";
 
 function App() {
   let topics = {"Introduction & History": [], "Explorable Explanations": [], "Computational Notebooks": [], "Authoring Tools": [], "Augmented Reading": [], "Literature Review": [], "Collaboration & Annotation": [], "Citation": [], "Scientometrics": [], "Automating Discovery": [], "Information Extraction": [], "Accessibility": [], "Figures & Tables": [], "Layouts & Formats": [], "Open Access & Open Science": [], "Libraries & Course Review": []};
@@ -41,17 +42,21 @@ function App() {
             
           </div>
           <div className="col">
-            <div className="about">
-              <h5>About AuthorLens</h5>
-              <br></br>
-              <p>AuthorLens allows you to explore other relevant works by your authors of interest.</p>
-              <p>Start by expanding one of the class topics on the left to browse papers. Once you see a paper you're interested in, you can click on one of the paper's authors to see more information about them and other potentially relevant papers they wrote. </p>
-              <p>Relevance is determined by a <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> score between the abstract of the origin paper (the paper on which you clicked on the author) and the destination paper (some other paper by the author). The results are sorted by relevance.  </p>
+            <div class="about">
+              <div id="about-text">
+                <h5>About AuthorLens</h5>
+                <br></br>
+                <p>AuthorLens allows you to explore other relevant works by the authors of your interest.</p>
+                <p>Click on one of the paper's authors to see more information about them and their parent that might be relevant to the one that you viewed. </p>
+                {/* <p>Relevance is determined by a <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> score between the abstract of the origin paper (the paper on which you clicked on the author) and the destination paper (some other paper by the author). The results are sorted by relevance.  </p> */}
+              </div>
+
+              <div className="container" id="about-barchart">
+                <BarChart />
+              </div>
             </div>
           </div>
         </div>
-        
-        
       </header>
     </div>
   );
