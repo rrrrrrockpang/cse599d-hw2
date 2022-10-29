@@ -4,7 +4,6 @@ import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg, GraphUp, Building
 // import SlidingPanel from 'react-sliding-side-panel';
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
-import classPapers from './data.json';
 import authorDataS2 from './authors.json';
 import relevant from './relevant.json';
 import Button from 'react-bootstrap/Button';
@@ -34,7 +33,7 @@ export function SlidingCard(author) {
         
         <span>
             <a onClick={() => {setState({ isPaneOpen: true })}} href="#!">
-                <Button variant="primary" size="sm">{author.name}</Button>
+                <Button variant="primary" size="sm" style={{backgroundColor: "#3d8bfd", border: "transparent"}}>{author.name}</Button>
             </a>
             <SlidingPane
                 className="some-custom-class"
@@ -122,7 +121,7 @@ export function PaperCardLeaf({id, authorId}) {
 
     const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
-          That paper seems to be quite relevant to the paper you are currently reading.
+          This paper seems quite relevant to the paper from which you selected this author.
         </Tooltip>
       );
 
@@ -139,7 +138,7 @@ export function PaperCardLeaf({id, authorId}) {
                     </div>
                     <div className="info-wrapper">
                         {paper.venue ? <span style={{marginRight: '1rem'}}><Book /> {paper.venue}</span> : null}
-                        <span style={{marginRight: '1rem'}}><Clock /> {paper.year}</span>
+                        <span><Clock /> {paper.year}</span>
                         {paper.score > 0.09 ? 
                         <span class="similarity-score">
                             <OverlayTrigger placement="right"
