@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
-import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg, GraphUp, Building } from 'react-bootstrap-icons';
+import { People, Book, Clock, Quote, TextLeft, Link45deg, XLg, GraphUp, Building, Fire } from 'react-bootstrap-icons';
 // import SlidingPanel from 'react-sliding-side-panel';
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import classPapers from './data.json';
 import authorDataS2 from './authors.json';
 import relevant from './relevant.json';
-import papersEnhanced from './papers.json';
+import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 function SubtitleFormatter(author) {
   return (
@@ -31,7 +34,7 @@ export function SlidingCard(author) {
         
         <span>
             <a onClick={() => {setState({ isPaneOpen: true })}} href="#!">
-                {author.name}
+                <Button variant="primary" size="sm">{author.name}</Button>
             </a>
             <SlidingPane
                 className="some-custom-class"
@@ -44,13 +47,12 @@ export function SlidingCard(author) {
                 onRequestClose={() => {
                 // triggered on "<" on left top click or on outside click
                 setState({ isPaneOpen: false });
-                
                 }}
                 closeIcon={<div><XLg style={{width: "50px"}}/></div>}
                 width="50%"
             >
-            <h5>{author.name}'s Other Papers You May Find Relevant </h5>
-            <div style={{marginBottom: "1rem"}}><span>to "{author.prevTitle}," from Semantic Scholar</span></div>
+            <h5>{author.name}'s Other Papers You May Find Relevant to</h5>
+            <div style={{marginBottom: "1rem"}}><span>"{author.prevTitle}," from Semantic Scholar</span></div>
             <hr />
             <PaperCardLeaf id={author.prevPaperId} authorId={author.authorId} />
             </SlidingPane>
@@ -68,9 +70,16 @@ export function PaperCard(props) {
                 {paper.s2data ?
                 <div key={paper.s2data.paperId}>
                     <h5><a className="title-link" href={`https://doi.org/${paper.doi}`} target="_blank">{paper.s2data.title}</a></h5>
-                    <div className="info-wrapper"> <People /> {paper.s2data.authors.map((author, index) => (<span>
-                        {index === paper.s2data.authors.length - 1 ? <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} /></span> : <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} />, </span>}
-                        </span>))}
+                    <div className="info-wrapper"> 
+                        <People /> &nbsp;
+                        {
+                            paper.s2data.authors.map((author, index) => (
+                                <span>{index === paper.s2data.authors.length - 1 ? 
+                                    <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} /> </span>: 
+                                    <span><SlidingCard {...author} prevTitle={paper.s2data.title} prevPaperId={paper.s2id} />, </span>}
+                                </span>
+                            ))
+                        }
                     </div>
                     <div className="info-wrapper">
                         {paper.s2data.venue ? <span style={{marginRight: '1rem'}}><Book /> {paper.s2data.venue}</span> : null}
@@ -110,6 +119,13 @@ export function PaperCardLeaf({id, authorId}) {
     }
 
     const papers = topArray.map((paper, index) => {return topArray[index]});
+
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+          That paper seems to be quite relevant to the paper you are currently reading.
+        </Tooltip>
+      );
+
     return (
         <div>
         {papers.map((paper) => (
@@ -124,6 +140,14 @@ export function PaperCardLeaf({id, authorId}) {
                     <div className="info-wrapper">
                         {paper.venue ? <span style={{marginRight: '1rem'}}><Book /> {paper.venue}</span> : null}
                         <span style={{marginRight: '1rem'}}><Clock /> {paper.year}</span>
+                        {paper.score > 0.09 ? 
+                        <span class="similarity-score">
+                            <OverlayTrigger placement="right"
+                                delay={{ show: 100, hide: 200 }}
+                                overlay={renderTooltip}>
+                                    <Fire />
+                            </OverlayTrigger>
+                        </span> : null}
                         {/* <span><Quote /> {paper.s2data.citationCount} citations</span> */}
                     </div>
                     {paper.tldr ? <p><TextLeft /> TLDR: {paper.tldr.text}</p> : null}

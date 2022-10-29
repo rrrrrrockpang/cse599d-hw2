@@ -59,3 +59,14 @@ h5 {
   display: block;
   width: 100%;
 }
+
+.btn {
+  margin: 0.1rem;
+  padding-top: 0.05rem;
+  padding-bottom: 0.05rem;
+}
+
+.similarity-score {
+  margin-left: 1rem;
+  color: red;
+}
